@@ -23,21 +23,21 @@ class HomePage extends StatelessWidget {
                   height: 400,
                   decoration: BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage('assets/Images/background.png'),
+                          image: AssetImage('assets/Images/background1.png'),
                           fit: BoxFit.fill)),
                   child: Stack(
                     children: <Widget>[
                       Positioned(
-                        left: 30,
+                        left: 25,
                         width: 80,
-                        height: 200,
+                        height: 510,
                         child: FadeAnimation(
                             1,
                             Container(
                               decoration: BoxDecoration(
                                   image: DecorationImage(
                                       image: AssetImage(
-                                          'assets/Images/light-1.png'))),
+                                          'assets/Images/image.png'))),
                             )),
                       ),
                       Positioned(
@@ -71,7 +71,7 @@ class HomePage extends StatelessWidget {
                         child: FadeAnimation(
                             1.6,
                             Container(
-                              margin: EdgeInsets.only(top: 50),
+                              margin: EdgeInsets.only(top: 40),
                               child: Center(
                                 child: Text(
                                   "Login",
@@ -143,8 +143,8 @@ class HomePage extends StatelessWidget {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 gradient: LinearGradient(colors: [
-                                  Color.fromRGBO(143, 148, 251, 1),
-                                  Color.fromRGBO(143, 148, 251, .6),
+                                  Color.fromRGBO(255,140,0,.8),
+                                  Color.fromRGBO(255,165,0,.6),
                                 ])),
                             child: Center(
                               child: TextButton(
@@ -152,7 +152,8 @@ class HomePage extends StatelessWidget {
                                   "Login",
                                   style: TextStyle(
                                       color: Colors.white,
-                                      fontWeight: FontWeight.bold),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
                                 ),
                                 onPressed: (){
                                   if(Email.text=='abc') {
