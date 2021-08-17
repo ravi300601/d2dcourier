@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:d2dcourier/dashboard.dart';
 import 'package:d2dcourier/registration.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'Animation/FadeAnimation.dart';
@@ -11,6 +14,7 @@ void main() => runApp(MaterialApp(
 
 class HomePage extends StatelessWidget {
   final Email = TextEditingController();
+  final password = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +24,7 @@ class HomePage extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Container(
-                  height: 400,
+                  height: 350,
                   decoration: BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage('assets/Images/background1.png'),
@@ -30,7 +34,7 @@ class HomePage extends StatelessWidget {
                       Positioned(
                         left: 25,
                         width: 80,
-                        height: 510,
+                        height: 435,
                         child: FadeAnimation(
                             1,
                             Container(
@@ -41,11 +45,11 @@ class HomePage extends StatelessWidget {
                             )),
                       ),
                       Positioned(
-                        left: 140,
-                        width: 80,
-                        height: 150,
+                        left: 110,
+                        width: 90,
+                        height: 100,
                         child: FadeAnimation(
-                            1.3,
+                            1,
                             Container(
                               decoration: BoxDecoration(
                                   image: DecorationImage(
@@ -69,9 +73,9 @@ class HomePage extends StatelessWidget {
                       ),
                       Positioned(
                         child: FadeAnimation(
-                            1.6,
+                            1.3,
                             Container(
-                              margin: EdgeInsets.only(top: 40),
+                              margin: EdgeInsets.only(top: 0),
                               child: Center(
                                 child: Text(
                                   "Login",
@@ -91,7 +95,7 @@ class HomePage extends StatelessWidget {
                   child: Column(
                     children: <Widget>[
                       FadeAnimation(
-                          1.8,
+                          1.5,
                           Container(
                             padding: EdgeInsets.all(5),
                             decoration: BoxDecoration(
@@ -114,9 +118,9 @@ class HomePage extends StatelessWidget {
                                   child: TextField(
                                     decoration: InputDecoration(
                                         border: InputBorder.none,
-                                        hintText: "Email or Phone number",
+                                        hintText: "Email",
                                         hintStyle:
-                                            TextStyle(color: Colors.grey)),
+                                            TextStyle(color: Colors.black54)),
                                     controller: Email,
                                   ),
                                 ),
@@ -127,7 +131,8 @@ class HomePage extends StatelessWidget {
                                         border: InputBorder.none,
                                         hintText: "Password",
                                         hintStyle:
-                                            TextStyle(color: Colors.grey)),
+                                            TextStyle(color: Colors.black54)),
+                                    controller: password,
                                   ),
                                 )
                               ],
@@ -137,7 +142,7 @@ class HomePage extends StatelessWidget {
                         height: 30,
                       ),
                       FadeAnimation(
-                          2,
+                          1.7,
                           Container(
                             height: 50,
                             decoration: BoxDecoration(
@@ -151,31 +156,38 @@ class HomePage extends StatelessWidget {
                                 child: Text(
                                   "Login",
                                   style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
                                 ),
                                 onPressed: (){
-                                  if(Email.text=='abc') {
+                                  if(Email.text=='abc' && password.text=="1234") {
                                     Navigator.push(context, MaterialPageRoute(
                                         builder: (context) => dashboard())
                                     );
+                                  }else{
+                                    toast(
+                                        "Wrong Email or password",
+                                        Toast.LENGTH_SHORT,
+                                        ToastGravity.BOTTOM,
+                                        Colors.red);
                                   }
                                 },
                               ),
                             ),
                           )),
                       SizedBox(
-                        height: 20,
+                        height: 2,
                       ),
                       FadeAnimation(
-                          1.5,
+                          1.2,
                           Container(
+                            alignment: Alignment.centerRight,
                             child: TextButton(
                                 child:Text(
                                   "Forgot Password?",
                                   style: TextStyle(
-                                      color: Color.fromRGBO(143, 148, 251, 1)),
+                                      color: Color.fromRGBO(255,165,0,.6)),
                                 ),
                             onPressed: (){
                               toast(
@@ -191,13 +203,13 @@ class HomePage extends StatelessWidget {
                         height: 5,
                       ),
                       FadeAnimation(
-                          1.5,
+                          1.2,
                           Container(
                             child: TextButton(
                               child:Text(
-                                "New User? Sign in",
+                                "New User? Sign up",
                                 style: TextStyle(
-                                    color: Color.fromRGBO(143, 148, 251, 1)),
+                                    color: Color.fromRGBO(255,165,0,.6)),
                               ),
                               onPressed: (){
                                 Navigator.push(context, MaterialPageRoute(
