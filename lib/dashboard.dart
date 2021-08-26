@@ -1,3 +1,4 @@
+import 'package:d2dcourier/database.dart';
 import 'package:flutter/material.dart';
 
 import 'Animation/FadeAnimation.dart';
@@ -12,14 +13,12 @@ class dashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Second Route"),
+        title: Text("Dashboard"),
       ),
       body: Center(
         child: TextButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('Go back!'),
+          onPressed: () => logout(context),
+          child: Text('Logout'),
         ),
       ),
     );

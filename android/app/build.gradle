@@ -22,6 +22,7 @@ if (flutterVersionName == null) {
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
@@ -34,6 +35,7 @@ android {
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -47,4 +49,11 @@ android {
 
 flutter {
     source '../..'
+}
+
+dependencies {
+    implementation "androidx.multidex:multidex:2.0.1"
+    testImplementation 'junit:junit:4.12'
+//    androidtestImplementation 'com.android.support.test:runner:1.0.2'
+//    androidtestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
