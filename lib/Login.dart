@@ -1,4 +1,5 @@
 import 'package:d2dcourier/Autheticate.dart';
+import 'package:d2dcourier/ResetPassword.dart';
 import 'package:d2dcourier/dashboard.dart';
 import 'package:d2dcourier/database.dart';
 import 'package:d2dcourier/registration.dart';
@@ -6,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'Animation/FadeAnimation.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -36,7 +38,12 @@ class LoginScreenState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Scaffold(
+    return new WillPopScope(
+        onWillPop: () async {
+          SystemNavigator.pop();
+          return true;
+        },
+        child: new Scaffold(
         backgroundColor: Colors.white,
         body: isLoading
             ? Center(
@@ -67,9 +74,9 @@ class LoginScreenState extends State<Login> {
                   child: Stack(
                     children: <Widget>[
                       Positioned(
-                        left: 25,
-                        width: 80,
-                        height: 435,
+                          left: 25,
+                          width: 80,
+                          height: 435,
                         child: FadeAnimation(
                             1,
                             Container(
@@ -211,7 +218,6 @@ class LoginScreenState extends State<Login> {
                                           isLoading = true;
                                         });
                                         Loginuser(Email.text, password.text).then((user){
-
                                           if(user != null){
                                             print("Login Sucessfull");
                                             Navigator.push(context, MaterialPageRoute(
@@ -253,11 +259,9 @@ class LoginScreenState extends State<Login> {
                                         color: Color.fromRGBO(255,165,0,.6)),
                                   ),
                                   onPressed: (){
-                                    toast(
-                                        Email.text,
-                                        Toast.LENGTH_LONG,
-                                        ToastGravity.BOTTOM,
-                                        Colors.green);
+                                    Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) => ResetScreen())
+                                    );
                                   },
                                 ),
                               )
@@ -295,7 +299,9 @@ class LoginScreenState extends State<Login> {
               ],
             ),
           ),
-        ));
+        )
+        ),
+                );
   }
 }
 

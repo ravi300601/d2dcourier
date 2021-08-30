@@ -1,3 +1,4 @@
+import 'package:d2dcourier/Verify.dart';
 import 'package:d2dcourier/dashboard.dart';
 import 'package:d2dcourier/database.dart';
 import 'package:d2dcourier/main.dart';
@@ -46,7 +47,21 @@ class _registerState extends State<register> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: isLoading
-          ? Center(child: Loader())
+          ? Center(
+        child: Container(
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                      color: Color.fromRGBO(143, 148, 251, .3),
+                      blurRadius: 20.0,
+                      offset: Offset(0, 10)
+                  )
+                ]),
+            child: Loader()
+        ),
+      )
           : SingleChildScrollView(
               child: Container(
                   child: Column(
@@ -249,11 +264,7 @@ class _registerState extends State<register> {
                                     ),
                                     onPressed: () async {
                                       validate();
-                                      if (fName.text != "" ||
-                                          lName.text != "" ||
-                                          phoneNo.text != "" ||
-                                          Email.text != "" ||
-                                          password.text != "") {
+                                      if (fName.text != "" || lName.text != "" || phoneNo.text != "" || Email.text != "" || password.text != "") {
                                         setState(() {
                                           isLoading = true;
                                         });
@@ -265,20 +276,17 @@ class _registerState extends State<register> {
                                             email: Email.text,
                                             password: password.text,
                                           );
-                                          User updateUser =
-                                              FirebaseAuth.instance.currentUser;
-                                          updateUser.updateProfile(
-                                              displayName: fName.text);
-                                          userSetup(fName.text, lName.text,
-                                              phoneNo.text, Email.text);
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      dashboard()));
-                                          setState(() {
-                                            isLoading = false;
-                                          });
+                                          User updateUser = FirebaseAuth.instance.currentUser;
+                                            updateUser.updateProfile(displayName: fName.text);
+                                            userSetup(fName.text, lName.text, phoneNo.text, Email.text);
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        VerifyScreen()));
+                                            setState(() {
+                                              isLoading = false;
+                                            });
                                         } on FirebaseAuthException catch (e) {
                                           if (e.code == 'weak-password') {
                                             Fluttertoast.showToast(msg: e.code);
@@ -335,4 +343,9 @@ class _registerState extends State<register> {
             ))),
     );
   }
+}
+
+
+void verifyemail(){
+
 }
