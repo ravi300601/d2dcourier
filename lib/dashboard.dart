@@ -1,8 +1,8 @@
 import 'package:d2dcourier/database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'Animation/FadeAnimation.dart';
+import 'Widget/Navigation_drawer_widget.dart';
 
 void main() => runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -18,7 +18,7 @@ class dashboard extends StatefulWidget {
 }
 
 class _dashboardState extends State<dashboard> {
-
+  //Backpressed Controller Function
   Future<bool> _onWillPop() async {
     return (await showDialog(
           context: context,
@@ -40,6 +40,7 @@ class _dashboardState extends State<dashboard> {
         false;
   }
 
+// Dashboard GUI
   @override
   Widget build(BuildContext context) {
     return new WillPopScope(
@@ -47,9 +48,10 @@ class _dashboardState extends State<dashboard> {
       child: new Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.orange,
-          automaticallyImplyLeading: false,
+          //automaticallyImplyLeading: false,
           title: Text("Dashboard"),
         ),
+        drawer: NavigationDrawerWidget(),
         body: Center(
           child: TextButton(
             onPressed: () => logout(context),

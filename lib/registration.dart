@@ -33,6 +33,7 @@ class _registerState extends State<register> {
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
+// Registration Form Validation Function
   void validate() {
     if (_formKey.currentState.validate()) {
       print("Validated");
@@ -41,6 +42,7 @@ class _registerState extends State<register> {
     }
   }
 
+//Registration Form GUI
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -48,20 +50,18 @@ class _registerState extends State<register> {
       backgroundColor: Colors.white,
       body: isLoading
           ? Center(
-        child: Container(
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                      color: Color.fromRGBO(143, 148, 251, .3),
-                      blurRadius: 20.0,
-                      offset: Offset(0, 10)
-                  )
-                ]),
-            child: Loader()
-        ),
-      )
+              child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Color.fromRGBO(143, 148, 251, .3),
+                            blurRadius: 20.0,
+                            offset: Offset(0, 10))
+                      ]),
+                  child: Loader()),
+            )
           : SingleChildScrollView(
               child: Container(
                   child: Column(
@@ -151,6 +151,7 @@ class _registerState extends State<register> {
                                               bottom: BorderSide(
                                                   color: Colors.grey))),
                                       child: TextFormField(
+                                        //Form Validation
                                         validator: RequiredValidator(
                                             errorText:
                                                 "First Name is Mandatory"),
@@ -169,6 +170,7 @@ class _registerState extends State<register> {
                                               bottom: BorderSide(
                                                   color: Colors.grey))),
                                       child: TextFormField(
+                                        //Form validation
                                         validator: RequiredValidator(
                                             errorText:
                                                 "Last Name is Mandatory"),
@@ -189,11 +191,13 @@ class _registerState extends State<register> {
                                       child: TextFormField(
                                         keyboardType: TextInputType.number,
                                         inputFormatters: <TextInputFormatter>[
-                                          FilteringTextInputFormatter.digitsOnly,
+                                          FilteringTextInputFormatter
+                                              .digitsOnly,
                                           LengthLimitingTextInputFormatter(10)
                                         ],
                                         validator: RequiredValidator(
-                                            errorText: "Phone No. is Mandatory"),
+                                            errorText:
+                                                "Phone No. is Mandatory"),
                                         decoration: InputDecoration(
                                             border: InputBorder.none,
                                             hintText: "Phone No.",
@@ -209,6 +213,7 @@ class _registerState extends State<register> {
                                               bottom: BorderSide(
                                                   color: Colors.grey))),
                                       child: TextFormField(
+                                        // Form Validation
                                         validator: MultiValidator([
                                           RequiredValidator(
                                               errorText: "Email is Mandatory"),
@@ -263,8 +268,13 @@ class _registerState extends State<register> {
                                           fontSize: 20),
                                     ),
                                     onPressed: () async {
+                                      // Add to firebase
                                       validate();
-                                      if (fName.text != "" || lName.text != "" || phoneNo.text != "" || Email.text != "" || password.text != "") {
+                                      if (fName.text != "" &&
+                                          lName.text != "" &&
+                                          phoneNo.text != "" &&
+                                          Email.text != "" &&
+                                          password.text != "") {
                                         setState(() {
                                           isLoading = true;
                                         });
@@ -276,27 +286,33 @@ class _registerState extends State<register> {
                                             email: Email.text,
                                             password: password.text,
                                           );
-                                          User updateUser = FirebaseAuth.instance.currentUser;
-                                            updateUser.updateProfile(displayName: fName.text);
-                                            userSetup(fName.text, lName.text, phoneNo.text, Email.text);
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        VerifyScreen()));
-                                            setState(() {
-                                              isLoading = false;
-                                            });
+                                          User updateUser =
+                                              FirebaseAuth.instance.currentUser;
+                                          updateUser.updateProfile(
+                                              displayName: fName.text);
+                                          userSetup(fName.text, lName.text,
+                                              phoneNo.text, Email.text);
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      VerifyScreen()));
+                                          setState(() {
+                                            isLoading = false;
+                                          });
                                         } on FirebaseAuthException catch (e) {
                                           if (e.code == 'weak-password') {
                                             Fluttertoast.showToast(msg: e.code);
-                                            print('The Password provided is too weak.');
+                                            print(
+                                                'The Password provided is too weak.');
                                             setState(() {
                                               isLoading = false;
                                             });
-                                          } else if (e.code == 'email-already-in-use') {
+                                          } else if (e.code ==
+                                              'email-already-in-use') {
                                             Fluttertoast.showToast(msg: e.code);
-                                            print('The account already exists for that email.');
+                                            print(
+                                                'The account already exists for that email.');
                                             setState(() {
                                               isLoading = false;
                                             });
@@ -345,7 +361,4 @@ class _registerState extends State<register> {
   }
 }
 
-
-void verifyemail(){
-
-}
+//void verifyemail() {}
