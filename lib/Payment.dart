@@ -1,4 +1,6 @@
 import 'package:d2dcourier/Animation/FadeAnimation.dart';
+import 'package:d2dcourier/dashboard.dart';
+import 'package:d2dcourier/database.dart';
 import 'package:flutter/material.dart';
 
 class Payment extends StatefulWidget {
@@ -14,10 +16,14 @@ class _PaymentState extends State<Payment> {
 
   int selectedRadioTile;
 
+  String Payment_mode;
+
+// Contruc
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
     selectedRadioTile = 0;
   }
 
@@ -25,6 +31,10 @@ class _PaymentState extends State<Payment> {
     setState(() {
       selectedRadioTile = val;
     });
+  }
+
+  UpdateData(String payment, String amount, String delivery) async {
+    await updateUserList(payment, amount, delivery);
   }
 
   @override
@@ -138,6 +148,7 @@ class _PaymentState extends State<Payment> {
                             onChanged: (val) {
                               print("Radio Tile pressed $val");
                               setSelectedRadioTile(val);
+                              Payment_mode = "Cash on Pickup";
                             }),
                         Divider(
                           height: 10,
@@ -152,6 +163,7 @@ class _PaymentState extends State<Payment> {
                             onChanged: (val) {
                               print("Radio Tile pressed $val");
                               setSelectedRadioTile(val);
+                              Payment_mode = "Cash on Delivery";
                             }),
                         Divider(
                           height: 10,
@@ -166,6 +178,7 @@ class _PaymentState extends State<Payment> {
                             onChanged: (val) {
                               print("Radio Tile pressed $val");
                               setSelectedRadioTile(val);
+                              Payment_mode = "Paypal";
                             }),
                         Divider(
                           height: 10,
@@ -180,6 +193,7 @@ class _PaymentState extends State<Payment> {
                             onChanged: (val) {
                               print("Radio Tile pressed $val");
                               setSelectedRadioTile(val);
+                              Payment_mode = "Cards";
                             }),
                         Divider(
                           height: 10,
@@ -210,7 +224,14 @@ class _PaymentState extends State<Payment> {
                               fontWeight: FontWeight.bold,
                               fontSize: 20),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          UpdateData(
+                              Payment_mode, dropdownrupee, dropdownvalue);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => dashboard()));
+                        },
                       ),
                     ),
                   )),

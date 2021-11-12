@@ -7,11 +7,12 @@ import 'package:flutter/material.dart';
 class Autheticate extends StatelessWidget {
   FirebaseAuth auth = FirebaseAuth.instance;
 
+// logic to check whether user is login or not
   @override
   Widget build(BuildContext context) {
-    if(auth.currentUser != null){
+    if (auth.currentUser != null) {
       return dashboard();
-    }else{
+    } else {
       return Login();
     }
   }

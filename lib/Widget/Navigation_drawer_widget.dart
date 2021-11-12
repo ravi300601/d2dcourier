@@ -7,14 +7,15 @@ import 'package:flutter/material.dart';
 import '../Booking.dart';
 import '../ProfilePage.dart';
 
-String Name;
-String Email;
+String Name = 'XYZ';
+String Email = 'xyz@gmail.com';
 
 class NavigationDrawerWidget extends StatefulWidget {
   @override
   _NavigationDrawerWidgetState createState() => _NavigationDrawerWidgetState();
 }
 
+// function to fetch user name from Database
 String user_name() {
   var details = getCurrentUserData();
   if (details != null) {
@@ -28,6 +29,7 @@ String user_name() {
   }
 }
 
+// function to fetch user email from Database
 String user_email() {
   var details1 = getCurrentUserData();
   if (details1 != null) {

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:d2dcourier/Booking.dart';
 import 'package:d2dcourier/ProfilePage.dart';
 import 'package:d2dcourier/dashboard.dart';
 import 'package:d2dcourier/main.dart';
@@ -10,14 +11,9 @@ import 'dart:async';
 
 import 'Login.dart';
 
-// FirebaseAuth auth = FirebaseAuth.instance;
-// final String uid = auth.currentUser.uid.toString();
+String order_id; // to store order id in variable
 
-// CollectionReference usersCollection =
-//     FirebaseFirestore.instance.collection('Users');
-// FirebaseAuth auth = FirebaseAuth.instance;
-// String uid = auth.currentUser.uid.toString();
-
+// to get Current user unique id
 Future<String> getCurrentUID() async {
   FirebaseAuth auth = FirebaseAuth.instance;
   String uid = auth.currentUser.uid.toString();
@@ -77,11 +73,13 @@ Stream<QuerySnapshot> get cusers {
   return users.snapshots();
 }
 
+// Fetch User Data from FireStore
 Future getCurrentUserData() async {
   try {
     FirebaseAuth auth = FirebaseAuth.instance;
     String uid = auth.currentUser.uid.toString();
-    DocumentSnapshot ds = await users.doc(uid).get();
+    DocumentSnapshot ds =
+        await users.doc(uid).get(); //path of database in firestore
     String Name = ds.get('Name');
     String email = ds.get('Email');
     String phone_no = ds.get('Phone no');
@@ -92,19 +90,33 @@ Future getCurrentUserData() async {
   }
 }
 
+// Add Courier data to Firestore
 Future<void> userBooking(
     String Paddress,
     String daddress,
-    int type,
+    int btype,
     String length,
     String width,
     String height,
     String weight,
     String cdetails) async {
+  String type;
   FirebaseAuth auth = FirebaseAuth.instance;
   String uid = auth.currentUser.uid.toString();
   final String formattedDateTime =
-      DateFormat('yyyy-MM-dd kk:mm:ss').format(DateTime.now()).toString();
+      DateFormat('dd-MM-yyyy kk:mm:ss').format(DateTime.now()).toString();
+  order_id = formattedDateTime;
+  final String orderid =
+      DateFormat('kkmmssddMMyyyy').format(DateTime.now()).toString();
+  if (btype == 0) {
+    type = 'Envelop';
+  }
+  if (btype == 1) {
+    type = 'Box Pack';
+  }
+  if (btype == 2) {
+    type = 'Other';
+  }
   users.doc(uid).collection('Booking').doc(formattedDateTime).set({
     'Pick-up': Paddress,
     'drop': daddress,
@@ -113,7 +125,43 @@ Future<void> userBooking(
     'width': width,
     'height': height,
     'weight': weight,
-    'details': cdetails
+    'details': cdetails,
+    'Date': formattedDateTime,
+    'Order Id': orderid,
+    'Status': "Pending",
+    'Payment': "none",
+    'Delivery_type': "normal",
+    'Amount': '0'
   });
   return;
+}
+
+// Fetch booking detail from firestore
+Future getBookinfList() async {
+  List itemsList = [];
+
+  try {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    String uid = auth.currentUser.uid.toString();
+    CollectionReference Bookinglist = FirebaseFirestore.instance
+        .collection('Users')
+        .doc(uid)
+        .collection('Booking');
+    await Bookinglist.get().then((value) {
+      value.docs.forEach((element) {
+        itemsList.add(element.data());
+      });
+    });
+    return itemsList;
+  } catch (e) {
+    print(e.toString());
+    return null;
+  }
+}
+
+Future updateUserList(String payment, String amount, String delivery) async {
+  FirebaseAuth auth = FirebaseAuth.instance;
+  String uid = auth.currentUser.uid.toString();
+  return await users.doc(uid).collection('Booking').doc(order_id).update(
+      {'Delivery_type': delivery, 'Payment': payment, 'Amount': amount});
 }
